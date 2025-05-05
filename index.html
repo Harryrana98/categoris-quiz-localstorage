@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Categories Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <div class="quiz_header">
+          <h3>Quiz Pop</h3>
+          <p id="succes">User Created Successfully!</p>
+          <p id="unsucces">Please Create A user</p>
+        </div>
+        <div class="create_user_btn">
+          <button id="user">Create User</button>
+        </div>
+      </header>
+
+      <div class="home_section">
+        <div class="text_aria">
+          <h3>Take Your <span>Knowledge</span> To Next Level</h3>
+          <button id="start">Start Quiz</button>
+        </div>
+        <div class="empty"></div>
+      </div>
+      <div class="create_user">
+        <div class="usename">
+          <label for="">Username</label><br />
+          <input
+            type="text"
+            id="userNameInput"
+            placeholder="Enter User Name"
+          /><br />
+          <button id="create_user">Create</button>
+          <button id="quit_user">Quit</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="page2">
+      <header>
+        <div class="quiz_header">
+          <h3>Quiz Pop</h3>
+        </div>
+        <nav>
+          <ul>
+            <li>Home</li>
+            <li>Quiz</li>
+            <li>Score</li>
+          </ul>
+        </nav>
+        <div class="create_user_btn">
+          <button id="user">Create User</button>
+        </div>
+      </header>
+
+      <div class="hero_section">
+        <div class="content">
+
+          <h1>Welcome To Quiz App</h1>
+          <h2>Select Topic</h2>
+          <p id="music">Music</p>
+          <p id="art">Modern Art</p>
+          <p id="coding">Coding</p>
+
+          <button id="quizStartBtn">Start</button>
+        </div>
+
+
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
