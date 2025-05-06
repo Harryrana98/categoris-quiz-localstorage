@@ -198,6 +198,7 @@ nav ul li:nth-child(2) {
   justify-content: center;
   background-color: orange;
   align-items: center;
+  /* display: none; */
 }
 
 .quiz_name{
@@ -250,4 +251,8 @@ nav ul li:nth-child(2) {
   margin-top: 2rem;
   cursor: pointer;
   font-size: large;
+}
+
+#page3{
+  display: none;
 }

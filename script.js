@@ -8,6 +8,7 @@ const wrapper = document.querySelector("#wrapper");
 const createSuccessfull = document.querySelector("#succes");
 const notCreate = document.querySelector("#unsucces");
 const page2 = document.querySelector("#page2");
+const page3 = document.querySelector("#page3");
 const musicQuiz = document.querySelector("#music");
 const artQuiz = document.querySelector("#art");
 const codingQuiz = document.querySelector("#coding");
@@ -65,19 +66,25 @@ startBtn.addEventListener("click", function () {
 });
 
 musicQuiz.addEventListener("click", async function () {
+    page3.style.display="block"
+    page2.style.display = "none";
   const URL =
     "https://opentdb.com/api.php?amount=5&category=25&difficulty=easy&type=multiple";
   const respose = await fetch(URL);
   const result = await respose.json();
   console.log(result.results);
   displayMusicQuiz(result.results);
-  page2.style.display = "none";
 });
 
 function displayMusicQuiz(quizArr) {
-  quizArr.forEach((questions) => {
-    questionDiv.innerHTML = questions.question;
-    optionDiv.innerHTML = questions.incorrect_answers;
+    quizArr.forEach((questions) => {
+        questionDiv.innerHTML = questions.question;
+        questions.incorrect_answers.forEach((opt,i)=>{
+        const button=document.createElement("button")
+            button.innerHTML=opt[i]
+            optionDiv.append(button)
+    });
+
 
 
   });
