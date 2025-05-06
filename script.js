@@ -14,10 +14,25 @@ const artQuiz = document.querySelector("#art");
 const codingQuiz = document.querySelector("#coding");
 const resultsDiv = document.querySelector(".results");
 const optionDiv = document.querySelector(".options");
-const quizContainer = document.querySelector(".quiz_conatiner");
+const quizContainer = document.querySelector(".quiz_container");
+const quizContainer1 = document.querySelector(".quiz_container1");
 const resultContent = document.querySelector(".result_content");
 const questionDiv = document.querySelector("#question");
-// const questionDiv=document.querySelector("#")
+const timerDiv = document.querySelector(".timer_div");
+const nextBtn = document.querySelector("#nextBtn");
+const quitBtn = document.querySelector("#quitBtn");
+const getResult = document.querySelector("#getResult");
+const playAgain = document.querySelector("#playAgain");
+const displayScore = document.querySelector("#score");
+
+let timer = 5;
+let score = 0;
+let questionNumber = 0;
+let questionArray = [];
+let userSelectedOpt;
+let userSelectedAns;
+let correctAns = [];
+let userAns = [];
 
 createUserBtn.addEventListener("click", () => {
   notCreate.style.display = "none";
@@ -66,27 +81,107 @@ startBtn.addEventListener("click", function () {
 });
 
 musicQuiz.addEventListener("click", async function () {
-    page3.style.display="block"
-    page2.style.display = "none";
+  page3.style.display = "block";
+  page2.style.display = "none";
   const URL =
-    "https://opentdb.com/api.php?amount=5&category=25&difficulty=easy&type=multiple";
+    "https://opentdb.com/api.php?amount=10&category=12&difficulty=easy&type=multiple";
   const respose = await fetch(URL);
   const result = await respose.json();
   console.log(result.results);
-  displayMusicQuiz(result.results);
+  questionArray = result.results;
+  displayMusicQuiz(questionArray);
+
+  let interval = setInterval(() => {
+    if (timer === 0) {
+      if (questionNumber >= questionArray.length) {
+        clearInterval(interval);
+        quizContainer.innerHTML = "";
+        quizContainer.style.display = "none";
+        quizContainer1.style.display = "block";
+        return;
+      } else {
+        questionNumber++;
+        timer = 5;
+        displayMusicQuiz(questionArray);
+      }
+      timerDiv.innerHTML = timer;
+    } else {
+      timer--;
+    }
+    timerDiv.innerHTML = timer;
+  }, 1000);
 });
 
 function displayMusicQuiz(quizArr) {
-    quizArr.forEach((questions) => {
-        questionDiv.innerHTML = questions.question;
-        questions.incorrect_answers.forEach((opt,i)=>{
-        const button=document.createElement("button")
-            button.innerHTML=opt[i]
-            optionDiv.append(button)
-    });
+  const ques = quizArr[questionNumber];
+  questionDiv.innerHTML = ques.question;
 
+  const options = [...ques.incorrect_answers, ques.correct_answer];
+  options.sort(() => Math.random() - 0.5);
 
+  optionDiv.innerHTML = options
+    .map((opt) => `<button>${opt}</button>`)
+    .join("");
 
-  });
-
+  correctAns[questionNumber] = ques.correct_answer;
 }
+optionDiv.addEventListener("click", userClickOptions);
+
+console.log(correctAns);
+nextBtn.addEventListener("click", function () {
+  if (questionNumber >= questionArray.length) {
+    quizContainer.innerHTML = "";
+    quizContainer.style.display = "none";
+    quizContainer1.style.display = "block";
+    timer = 0;
+  }
+  questionNumber++;
+  displayMusicQuiz(questionArray);
+  timer = 5;
+  timerDiv.innerHTML = timer;
+});
+
+function userClickOptions(e) {
+  userSelectedOpt = e.target;
+  userSelectedAns = userSelectedOpt.innerHTML;
+
+  userAns.push(userSelectedAns);
+
+  const correct = correctAns[questionNumber];
+  if (userSelectedAns === correct) {
+    score++;
+    userSelectedOpt.style.backgroundColor = "green";
+  } else {
+    userSelectedOpt.style.backgroundColor = "red";
+  }
+
+  const buttons = optionDiv.querySelectorAll("button");
+  buttons.forEach((btn) => {
+    if (btn.innerHTML === correct) {
+      //   btn.style.backgroundColor = "green";
+    }
+  });
+}
+
+const buttons = optionDiv.querySelectorAll("button");
+buttons.forEach((btn) => {
+  btn.disabled = true;
+});
+
+quitBtn.addEventListener("click", function () {
+  // quizContainer.innerHTML=""
+  page2.style.display = "block";
+  page3.style.display = "none";
+});
+
+function MatchUserAns() {}
+
+getResult.addEventListener("click", function () {
+  displayScore.innerHTML = `<p>Your Score: ${score} / ${questionArray.length}</p>`;
+  //   quizContainer1.append(displayScore)
+});
+
+playAgain.addEventListener("click", function () {
+  questionNumber++;
+  displayMusicQuiz(questionArray);
+});

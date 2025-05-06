@@ -231,21 +231,52 @@ nav ul li:nth-child(2) {
   text-align: center;
   padding: 4rem;
 }
+.quiz_container1{
+  width: 700px;
+  background-color: #fff;
+  height: 350px;
+  text-align: center;
+  padding: 4rem;
+}
 
 #nextBtn{
   background: black;
   color: #fff;
-  padding: 8px 3rem;
+  padding: 5px 3rem;
   border: none;
   border-radius: 5px;
   margin-top: 2rem;
   cursor: pointer;
   font-size: large;
 }
-#quitQuestion{
+
+
+#quitBtn{
   background:red;
   color: #fff;
-  padding: 8px 3rem;
+  padding: 5px 3rem;
+  border: none;
+  border-radius: 5px;
+  margin-top: 2rem;
+  cursor: pointer;
+  font-size: large;
+}
+
+#getResult{
+  background:black;
+  color: #fff;
+  padding: 5px 3rem;
+  border: none;
+  border-radius: 5px;
+  margin-top: 2rem;
+  cursor: pointer;
+  font-size: large;
+}
+
+#playAgain{
+  background:blue;
+  color: #fff;
+  padding: 5px 3rem;
   border: none;
   border-radius: 5px;
   margin-top: 2rem;
@@ -255,4 +286,13 @@ nav ul li:nth-child(2) {
 
 #page3{
   display: none;
+}
+
+
+.quiz_container1{
+  display: none;
+}
+
+.quiz_container1 h4{
+  
 }
