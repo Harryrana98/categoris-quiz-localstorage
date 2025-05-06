@@ -191,3 +191,63 @@ nav ul li:nth-child(2) {
   margin-top: 1rem;
   cursor: pointer;
 }
+
+.results {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-color: orange;
+  align-items: center;
+}
+
+.quiz_name{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.quiz_name p{
+  font-size: 25px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.timer_div{
+  display: flex;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #b28603;
+  justify-content: center;
+  align-items: center;
+}
+
+.quiz_container{
+  width: 700px;
+  background-color: #fff;
+  height: 350px;
+  text-align: center;
+  padding: 4rem;
+}
+
+#nextBtn{
+  background: black;
+  color: #fff;
+  padding: 8px 3rem;
+  border: none;
+  border-radius: 5px;
+  margin-top: 2rem;
+  cursor: pointer;
+  font-size: large;
+}
+#quitQuestion{
+  background:red;
+  color: #fff;
+  padding: 8px 3rem;
+  border: none;
+  border-radius: 5px;
+  margin-top: 2rem;
+  cursor: pointer;
+  font-size: large;
+}
