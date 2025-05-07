@@ -26,6 +26,7 @@ const playAgain = document.querySelector("#playAgain");
 const displayScore = document.querySelector("#score");
 const selectCategories = document.querySelectorAll(".content p");
 const quizNameP = document.querySelector("#quiz_name_p");
+const startQuizButton= document.querySelector("#quizStartBtn");
 
 const API_URL = [
   "https://opentdb.com/api.php?amount=10&category=12&difficulty=easy&type=multiple",
@@ -98,6 +99,8 @@ startBtn.addEventListener("click", function () {
 nextBtn.style.display = "none";
 quitBtn.style.display = "none";
 
+
+
 selectCategories.forEach((ele, i) => {
   ele.addEventListener("click", async (e) => {
     const index = i;
@@ -156,10 +159,10 @@ function displayMusicQuiz(quizArr) {
 console.log(correctAns);
 nextBtn.addEventListener("click", function () {
   if (questionNumber >= questionArray.length) {
+    timer = 0;
     quizContainer.innerHTML = "";
     quizContainer.style.display = "none";
     quizContainer1.style.display = "block";
-    timer = 0;
   }
   questionNumber++;
   displayMusicQuiz(questionArray);
