@@ -24,13 +24,22 @@ const quitBtn = document.querySelector("#quitBtn");
 const getResult = document.querySelector("#getResult");
 const playAgain = document.querySelector("#playAgain");
 const displayScore = document.querySelector("#score");
+const selectCategories = document.querySelectorAll(".content p");
+const quizNameP = document.querySelector("#quiz_name_p");
+
+const API_URL = [
+  "https://opentdb.com/api.php?amount=10&category=12&difficulty=easy&type=multiple",
+  "https://opentdb.com/api.php?amount=10&category=25&difficulty=easy&type=multiple",
+  "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple",
+];
 
 let timer = 5;
 let score = 0;
-let questionNumber = 0;
-let questionArray = [];
 let userSelectedOpt;
 let userSelectedAns;
+let isUserRegistered = false;
+let questionNumber = 0;
+let questionArray = [];
 let correctAns = [];
 let userAns = [];
 
@@ -41,11 +50,16 @@ createUserBtn.addEventListener("click", () => {
 
   newUserCreateBtn.addEventListener("click", () => {
     const inputvalue = userNameInput.value.trim();
-    createUserBtn.style.textTransform = "capitalize";
-    createUserBtn.innerHTML = inputvalue;
 
+    if (inputvalue === "") {
+      alert("Please Enter User Name");
+      return;
+    }
+    isUserRegistered = true;
     userNameInput.value = "";
 
+    createUserBtn.innerHTML = inputvalue;
+    createUserBtn.style.textTransform = "capitalize";
     createSuccessfull.style.display = "block";
     createUserdiv.style.display = "none";
     const settimeout = setTimeout(() => {
@@ -57,10 +71,20 @@ createUserBtn.addEventListener("click", () => {
 
   newUserQuitBtn.addEventListener("click", () => {
     createUserdiv.style.display = "none";
+    userNameInput.value = "";
   });
 });
 
 startBtn.addEventListener("click", function () {
+  if (!isUserRegistered) {
+    notCreate.style.display = "block";
+    const settimeout = setTimeout(() => {
+      notCreate.style.display = "none";
+
+      clearTimeout(settimeout);
+    }, 2000);
+    return;
+  }
   createSuccessfull.style.display = "none";
   page2.style.display = "block";
 
@@ -69,47 +93,47 @@ startBtn.addEventListener("click", function () {
   createUserBtn.innerHTML = inputvalue;
 
   wrapper.style.display = "none";
-  if (userNameInput.value === "") {
-    notCreate.style.display = "block";
-    const settimeout = setTimeout(() => {
-      notCreate.style.display = "none";
-
-      clearTimeout(settimeout);
-    }, 2000);
-  } else {
-  }
 });
 
-musicQuiz.addEventListener("click", async function () {
-  page3.style.display = "block";
-  page2.style.display = "none";
-  const URL =
-    "https://opentdb.com/api.php?amount=10&category=12&difficulty=easy&type=multiple";
-  const respose = await fetch(URL);
-  const result = await respose.json();
-  console.log(result.results);
-  questionArray = result.results;
-  displayMusicQuiz(questionArray);
+nextBtn.style.display = "none";
+quitBtn.style.display = "none";
 
-  let interval = setInterval(() => {
-    if (timer === 0) {
-      if (questionNumber >= questionArray.length) {
-        clearInterval(interval);
-        quizContainer.innerHTML = "";
-        quizContainer.style.display = "none";
-        quizContainer1.style.display = "block";
-        return;
+selectCategories.forEach((ele, i) => {
+  ele.addEventListener("click", async (e) => {
+    const index = i;
+    const indexhtml = ele.innerHTML;
+    quizNameP.innerHTML = `${indexhtml} Quiz `;
+    console.log(quizNameP);
+
+    page3.style.display = "block";
+    page2.style.display = "none";
+
+    const respose = await fetch(API_URL[i]);
+    const result = await respose.json();
+    console.log(result.results);
+    questionArray = result.results;
+    displayMusicQuiz(questionArray);
+
+    let interval = setInterval(() => {
+      if (timer === 0) {
+        if (questionNumber >= questionArray.length) {
+          clearInterval(interval);
+          quizContainer.innerHTML = "";
+          quizContainer.style.display = "none";
+          quizContainer1.style.display = "block";
+          return;
+        } else {
+          questionNumber++;
+          timer = 5;
+          displayMusicQuiz(questionArray);
+        }
+        timerDiv.innerHTML = timer;
       } else {
-        questionNumber++;
-        timer = 5;
-        displayMusicQuiz(questionArray);
+        timer--;
       }
       timerDiv.innerHTML = timer;
-    } else {
-      timer--;
-    }
-    timerDiv.innerHTML = timer;
-  }, 1000);
+    }, 1000);
+  });
 });
 
 function displayMusicQuiz(quizArr) {
@@ -124,8 +148,10 @@ function displayMusicQuiz(quizArr) {
     .join("");
 
   correctAns[questionNumber] = ques.correct_answer;
+
+  nextBtn.style.display = "inline-block";
+  quitBtn.style.display = "inline-block";
 }
-optionDiv.addEventListener("click", userClickOptions);
 
 console.log(correctAns);
 nextBtn.addEventListener("click", function () {
@@ -141,6 +167,7 @@ nextBtn.addEventListener("click", function () {
   timerDiv.innerHTML = timer;
 });
 
+optionDiv.addEventListener("click", userClickOptions); 
 function userClickOptions(e) {
   userSelectedOpt = e.target;
   userSelectedAns = userSelectedOpt.innerHTML;
@@ -151,22 +178,21 @@ function userClickOptions(e) {
   if (userSelectedAns === correct) {
     score++;
     userSelectedOpt.style.backgroundColor = "green";
+    userSelectedOpt.style.color = "white";
   } else {
     userSelectedOpt.style.backgroundColor = "red";
+    userSelectedOpt.style.color = "white";
   }
 
   const buttons = optionDiv.querySelectorAll("button");
   buttons.forEach((btn) => {
+    btn.disabled = true;
     if (btn.innerHTML === correct) {
-      //   btn.style.backgroundColor = "green";
+      btn.style.backgroundColor = "green";
+      btn.style.color = "white";
     }
   });
 }
-
-const buttons = optionDiv.querySelectorAll("button");
-buttons.forEach((btn) => {
-  btn.disabled = true;
-});
 
 quitBtn.addEventListener("click", function () {
   // quizContainer.innerHTML=""
