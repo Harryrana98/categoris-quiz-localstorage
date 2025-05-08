@@ -21,12 +21,13 @@ const questionDiv = document.querySelector("#question");
 const timerDiv = document.querySelector(".timer_div");
 const nextBtn = document.querySelector("#nextBtn");
 const quitBtn = document.querySelector("#quitBtn");
+const quitBtn2 = document.querySelector("#quitBtn2");
 const getResult = document.querySelector("#getResult");
 const playAgain = document.querySelector("#playAgain");
 const displayScore = document.querySelector("#score");
 const selectCategories = document.querySelectorAll(".content p");
 const quizNameP = document.querySelector("#quiz_name_p");
-const startQuizButton= document.querySelector("#quizStartBtn");
+const startQuizButton = document.querySelector("#quizStartBtn");
 
 const API_URL = [
   "https://opentdb.com/api.php?amount=10&category=12&difficulty=easy&type=multiple",
@@ -34,15 +35,20 @@ const API_URL = [
   "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple",
 ];
 
+
+let interval;
+let inputvalue;
 let timer = 5;
 let score = 0;
 let userSelectedOpt;
 let userSelectedAns;
 let isUserRegistered = false;
 let questionNumber = 0;
+let selectCategoriesIndex = 0;
 let questionArray = [];
 let correctAns = [];
 let userAns = [];
+let localArray=[];
 
 createUserBtn.addEventListener("click", () => {
   notCreate.style.display = "none";
@@ -50,8 +56,8 @@ createUserBtn.addEventListener("click", () => {
   userNameInput.focus();
 
   newUserCreateBtn.addEventListener("click", () => {
-    const inputvalue = userNameInput.value.trim();
-
+     inputvalue = userNameInput.value.trim();
+    // console.log(inputvalue)
     if (inputvalue === "") {
       alert("Please Enter User Name");
       return;
@@ -99,11 +105,9 @@ startBtn.addEventListener("click", function () {
 nextBtn.style.display = "none";
 quitBtn.style.display = "none";
 
-
-
 selectCategories.forEach((ele, i) => {
-  ele.addEventListener("click", async function displayQuestions(e) {
-    const index = i;
+  ele.addEventListener("click", async function () {
+    selectCategoriesIndex = i;
     const indexhtml = ele.innerHTML;
     quizNameP.innerHTML = `${indexhtml} Quiz `;
     console.log(quizNameP);
@@ -117,7 +121,7 @@ selectCategories.forEach((ele, i) => {
     questionArray = result.results;
     displayMusicQuiz(questionArray);
 
-    let interval = setInterval(() => {
+    interval = setInterval(() => {
       if (timer === 0) {
         if (questionNumber >= questionArray.length) {
           clearInterval(interval);
@@ -141,7 +145,7 @@ selectCategories.forEach((ele, i) => {
 
 function displayMusicQuiz(quizArr) {
   const ques = quizArr[questionNumber];
-  questionDiv.innerHTML = ques.question;
+  questionDiv.innerHTML = ` Q :- ${ques.question}`;
 
   const options = [...ques.incorrect_answers, ques.correct_answer];
   options.sort(() => Math.random() - 0.5);
@@ -158,7 +162,7 @@ function displayMusicQuiz(quizArr) {
 
 console.log(correctAns);
 nextBtn.addEventListener("click", function () {
-  if (questionNumber >= questionArray.length-1) {
+  if (questionNumber >= questionArray.length - 1) {
     timer = 0;
     quizContainer.innerHTML = "";
     quizContainer.style.display = "none";
@@ -171,7 +175,7 @@ nextBtn.addEventListener("click", function () {
   timerDiv.innerHTML = timer;
 });
 
-optionDiv.addEventListener("click", userClickOptions); 
+optionDiv.addEventListener("click", userClickOptions);
 function userClickOptions(e) {
   userSelectedOpt = e.target;
   userSelectedAns = userSelectedOpt.innerHTML;
@@ -198,20 +202,46 @@ function userClickOptions(e) {
   });
 }
 
-quitBtn.addEventListener("click", function () {
-  // quizContainer.innerHTML=""
+quitBtn2.addEventListener("click", function () {
+  clearInterval(interval);
   page2.style.display = "block";
   page3.style.display = "none";
 });
 
-function MatchUserAns() {}
-
 getResult.addEventListener("click", function () {
-  displayScore.innerHTML = `<p>Your Score: ${score} / ${questionArray.length}</p>`;
-  //   quizContainer1.append(displayScore)
+  displayScore.innerHTML = `<p>Your Score :- ${score} Out Of ${questionArray.length} </p>`;
 });
 
-playAgain.addEventListener("click", function () {
-  questionNumber=0;
+playAgain.addEventListener("click", async function () {
+  questionNumber = 0;
+  score = 0;
+  userAns = [];
+  correctAns = [];
+  timer = 5;
+  quizContainer1.style.display = "none";
+  quizContainer.style.display = "block";
+  const respose = await fetch(API_URL[selectCategoriesIndex]);
+  const result = await respose.json();
+  console.log(result.results);
+  questionArray = result.results;
   displayMusicQuiz(questionArray);
 });
+
+
+function setLocalStorage(){
+  const input=inputvalue
+  
+  
+  const obj={
+    Name:input,
+    date:new Date().toLocaleString(),
+    score:0
+  }
+  
+  localArray.push(obj)
+  
+  localStorage.setItem("user",JSON.stringify(localArray))
+}
+setLocalStorage()
+
+console.log(inputvalue);

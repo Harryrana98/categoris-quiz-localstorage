@@ -82,16 +82,13 @@ nav ul {
   display: flex;
   list-style: none;
 }
-nav ul li{
+nav ul li {
   cursor: pointer;
-  
 }
 
-nav ul li a{
+nav ul li a {
   text-decoration: none;
   color: #000;
-  
-
 }
 nav ul li:nth-child(2) {
   margin: 0 5rem;
@@ -207,9 +204,8 @@ nav ul li:nth-child(2) {
   font-size: 15px;
 }
 
-#start i{
-  
-  margin-left:5px;
+#start i {
+  margin-left: 5px;
 }
 
 .results {
@@ -250,6 +246,8 @@ nav ul li:nth-child(2) {
   height: 350px;
   text-align: center;
   padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 5px;
 }
 .quiz_container1 {
   width: 700px;
@@ -257,6 +255,8 @@ nav ul li:nth-child(2) {
   height: 350px;
   text-align: center;
   padding: 4rem;
+  border-radius: 8px;
+  box-shadow: 0 0 5px;
 }
 
 #nextBtn {
@@ -271,6 +271,17 @@ nav ul li:nth-child(2) {
 }
 
 #quitBtn {
+  background: red;
+  color: #fff;
+  padding: 5px 3rem;
+  border: none;
+  border-radius: 5px;
+  margin-top: 2rem;
+  cursor: pointer;
+  font-size: large;
+}
+
+#quitBtn2{
   background: red;
   color: #fff;
   padding: 5px 3rem;
@@ -312,6 +323,8 @@ nav ul li:nth-child(2) {
 }
 
 .quiz_container1 h4 {
+  font-size: 27px;
+  font-weight: 500;
 }
 
 #question {
@@ -336,4 +349,13 @@ nav ul li:nth-child(2) {
   border: none;
   border-radius: 5px;
   box-shadow: 0 0 2px;
+  cursor: pointer;
+  font-size:medium;
+}
+
+#score{
+  margin-top: 1rem;
+  color: green;
+  font-size: 20px;
+  height: 30px;
 }
