@@ -82,6 +82,17 @@ nav ul {
   display: flex;
   list-style: none;
 }
+nav ul li{
+  cursor: pointer;
+  
+}
+
+nav ul li a{
+  text-decoration: none;
+  color: #000;
+  
+
+}
 nav ul li:nth-child(2) {
   margin: 0 5rem;
 }
@@ -193,6 +204,12 @@ nav ul li:nth-child(2) {
   border-radius: 5px;
   margin-top: 1rem;
   cursor: pointer;
+  font-size: 15px;
+}
+
+#start i{
+  
+  margin-left:5px;
 }
 
 .results {

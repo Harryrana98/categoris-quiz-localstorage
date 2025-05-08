@@ -102,7 +102,7 @@ quitBtn.style.display = "none";
 
 
 selectCategories.forEach((ele, i) => {
-  ele.addEventListener("click", async (e) => {
+  ele.addEventListener("click", async function displayQuestions(e) {
     const index = i;
     const indexhtml = ele.innerHTML;
     quizNameP.innerHTML = `${indexhtml} Quiz `;
@@ -158,11 +158,12 @@ function displayMusicQuiz(quizArr) {
 
 console.log(correctAns);
 nextBtn.addEventListener("click", function () {
-  if (questionNumber >= questionArray.length) {
+  if (questionNumber >= questionArray.length-1) {
     timer = 0;
     quizContainer.innerHTML = "";
     quizContainer.style.display = "none";
     quizContainer1.style.display = "block";
+    return;
   }
   questionNumber++;
   displayMusicQuiz(questionArray);
@@ -211,6 +212,6 @@ getResult.addEventListener("click", function () {
 });
 
 playAgain.addEventListener("click", function () {
-  questionNumber++;
+  questionNumber=0;
   displayMusicQuiz(questionArray);
 });
