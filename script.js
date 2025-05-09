@@ -114,7 +114,7 @@ selectCategories.forEach((ele, i) => {
 
     page3.style.display = "block";
     page2.style.display = "none";
-
+    
     const respose = await fetch(API_URL[i]);
     const result = await respose.json();
     console.log(result.results);
@@ -212,36 +212,61 @@ getResult.addEventListener("click", function () {
   displayScore.innerHTML = `<p>Your Score :- ${score} Out Of ${questionArray.length} </p>`;
 });
 
+// playAgain.addEventListener("click", async function () {
+//   questionNumber = 0;
+//   score = 0;
+//   userAns = [];
+//   correctAns = [];
+//   timer = 5;
+//   quizContainer1.style.display = "none";
+//   page2.style.display = "block";
+//   quizContainer.style.display = "block";
+//   page3.style.display = "none";
+
+  
+  
+// });
+
 playAgain.addEventListener("click", async function () {
   questionNumber = 0;
   score = 0;
   userAns = [];
   correctAns = [];
   timer = 5;
-  quizContainer1.style.display = "none";
-  quizContainer.style.display = "block";
-  const respose = await fetch(API_URL[selectCategoriesIndex]);
-  const result = await respose.json();
-  console.log(result.results);
-  questionArray = result.results;
+
+  // Hide results screen, show category selection page
+  quizContainer1.style.display = "none"; 
+  page2.style.display = "block"; 
+  page3.style.display = "none"; 
+  quizContainer.style.display = "block"; 
+
+  // Fetch new quiz data based on selected category
+  const response = await fetch(API_URL[selectCategoriesIndex]);
+  const result = await response.json();
+  questionArray = result.results; 
+
+  // Reset UI & Timer
   displayMusicQuiz(questionArray);
+  clearInterval(interval);
+
+  interval = setInterval(() => {
+    if (timer === 0) {
+      if (questionNumber >= questionArray.length - 1) {
+        clearInterval(interval);
+        quizContainer.innerHTML = "";
+        quizContainer.style.display = "none";
+        quizContainer1.style.display = "block";
+        return;
+      } else {
+        questionNumber++;
+        timer = 5;
+        displayMusicQuiz(questionArray);
+      }
+    } else {
+      timer--;
+    }
+    timerDiv.innerHTML = timer;
+  }, 1000);
 });
 
 
-function setLocalStorage(){
-  const input=inputvalue
-  
-  
-  const obj={
-    Name:input,
-    date:new Date().toLocaleString(),
-    score:0
-  }
-  
-  localArray.push(obj)
-  
-  localStorage.setItem("user",JSON.stringify(localArray))
-}
-setLocalStorage()
-
-console.log(inputvalue);
