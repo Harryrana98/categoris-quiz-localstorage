@@ -117,7 +117,7 @@ selectCategories.forEach((ele, i) => {
     
     const respose = await fetch(API_URL[i]);
     const result = await respose.json();
-    console.log(result.results);
+    // console.log(result.results);
     questionArray = result.results;
     displayMusicQuiz(questionArray);
 
@@ -220,9 +220,9 @@ getResult.addEventListener("click", function () {
 //   timer = 5;
 //   quizContainer1.style.display = "none";
 //   page2.style.display = "block";
-//   quizContainer.style.display = "block";
+  
 //   page3.style.display = "none";
-
+//   quizContainer.style.display = "block";
   
   
 // });
@@ -234,10 +234,8 @@ playAgain.addEventListener("click", async function () {
   correctAns = [];
   timer = 5;
 
-  // Hide results screen, show category selection page
   quizContainer1.style.display = "none"; 
   page2.style.display = "block"; 
-  page3.style.display = "none"; 
   quizContainer.style.display = "block"; 
 
   // Fetch new quiz data based on selected category
@@ -245,10 +243,10 @@ playAgain.addEventListener("click", async function () {
   const result = await response.json();
   questionArray = result.results; 
 
-  // Reset UI & Timer
+  // ✅ Now that we have new questions, display the first one
   displayMusicQuiz(questionArray);
-  clearInterval(interval);
 
+  clearInterval(interval);
   interval = setInterval(() => {
     if (timer === 0) {
       if (questionNumber >= questionArray.length - 1) {
